@@ -15,6 +15,9 @@ class ServiceCategory(models.Model):
     def __str__(self):
         return '{}'.format(self.category_name)
 
+    def get_url(self):
+        return reverse('servicecatalog:serviceByCategory', args=[self.url_key])
+
 class ServiceProduct(models.Model):
     product_name = models.CharField(max_length=250, unique=True)
     url_key = models.SlugField(max_length=250, unique=True)
