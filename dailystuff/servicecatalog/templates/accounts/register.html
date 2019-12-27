@@ -1,0 +1,47 @@
+{% extends 'servicecatalog/commonbase.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block metadescription %}
+    Register to get a new account
+{% endblock %}
+{% block pagetitle %}
+    New Account - Daily Stuff
+{% endblock %}
+{% block maincontent %}
+    <div>
+        {% if not form.is_valid %}
+            <div class="max-auto">
+                <br>
+                <h1 class="my_title text-center">Register With Us</h1>
+                <br>
+                <div class="col-9 col-sm-9 col-md-6 col-lg-5 mx-auto bg-light">
+                    <br>
+                    <p>Enter following details to register with us.</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <p>{{ form | crispy }}</p>
+                        <button type="submit" class="btn btn-secondary">Create Account</button>
+                    </form>
+                    <br>
+                </div>
+            </div>
+        {% else %}
+            <div class="ma-auto">
+                <br>
+                <h1 class="my_title text-center">You have successfully registered with us.</h1>
+                <br>
+                <div>
+                    <p>
+                        Dear Customer,
+                        <br>
+                        <br>
+                        Your account is created and ready to use.
+                        <br>
+                        <a href="{% url 'servicecatalog:allServices' %}">Continue Shopping</a> and enjoy our services
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <br>
+{% endblock %}

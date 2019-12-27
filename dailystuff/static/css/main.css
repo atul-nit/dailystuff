@@ -126,3 +126,8 @@ body {
     background-image: none;
     background: none;
 }
+
+.errorlist li {
+    color: red;
+    font-weight: bold;
+}

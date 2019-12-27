@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from servicecatalog import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('servicecatalog/', include('servicecatalog.urls')),
+    path('account/create/', views.registerView, name="register"),
 ]
 
 if settings.DEBUG:
