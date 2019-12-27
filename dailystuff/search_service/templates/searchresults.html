@@ -1,0 +1,36 @@
+{% extends 'servicecatalog/commonbase.html' %}
+{% load staticfiles %}
+{% block metadescription %}
+    Enjoy Variety of Services
+{% endblock %}
+{% block pagetitle %}
+    Search - Daily Stuff
+{% endblock %}
+{% block maincontent %}
+    <div>
+        <p class="text-center my_search_text">
+            You have searched for <b>{{ query }}</b>
+        </p>
+    </div>
+    <div class="container">
+        <div class="row mx-auto">
+            {% for service in services %}
+                <div class="my_bottom_margin col-9 col-sm-12 col-md-4 col-md-12 col-lg-4">
+                    <div class="card text-center" style="width: 18rem;">
+                        <a href="{{ service.get_url }}">
+                            <img class="card-img-top my_image" src="{{ service.image.url }}" alt="{{service.name}}">
+                            <div class="card-body">
+                                <h4>{{ service.product_name }}</h4>
+                                <p>${{ service.service_cost }}</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="row mx-auto">
+                    <p class="text-center my_search_text">0 results found.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
