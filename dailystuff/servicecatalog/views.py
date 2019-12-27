@@ -5,6 +5,8 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.contrib.auth.models import Group, User
 from .models import ServiceCategory, ServiceProduct
 from .forms import RegisterForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, authenticate, logout
 
 
 def allServiceProducts(request):
@@ -53,4 +55,26 @@ def registerView(request):
     else:
         form = RegisterForm()
     return render(request, 'accounts/register.html', {'form': form})
+
+def loginView(request):
+    if request.method == 'POST':
+        form  = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                print("user password right............")
+                login(request, user)
+                return redirect('servicecatalog:allServices')
+            else:
+                return redirect('register')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'accounts/login.html', {'form': form})
+
+def logoutView(request):
+    logout(request)
+    return redirect('login')
+
 
