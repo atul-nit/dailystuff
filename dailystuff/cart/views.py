@@ -75,11 +75,11 @@ def cart_detail(request, order_total=0, counter=0, quote_items=0):
             # TODO: saving order in admin code here
         except stripe.error.CardError as e:
             return False, e
-        return render(request, 'cart_detail.html', dict(
-            quote_items=quote_items,
-            total=order_total,
-            counter=counter,
-            data_key=data_key,
-            stripe_total=stripe_total,
-            description=description
-        ))
+    return render(request, 'cart_detail.html', dict(
+        quote_items=quote_items,
+        total=order_total,
+        counter=counter,
+        data_key=data_key,
+        stripe_total=stripe_total,
+        description=description
+    ))
