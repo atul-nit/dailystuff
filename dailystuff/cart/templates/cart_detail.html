@@ -1,0 +1,109 @@
+{% extends 'servicecatalog/commonbase.html' %}
+{% load staticfiles %}
+{% block metadescription %}
+    This is Shopping Cart Page
+{% endblock %}
+{% block pagetitle %}
+    Cart - Daily Stuff
+{% endblock %}
+{% block maincontent %}
+    {% if not cart_items %}
+    <div>
+        <div class="text-center">
+            <h1 class="text-center my_title">
+                Your Shopping Cart is Empty
+            </h1>
+            <br>
+            <p class="text-center">
+                Please click <a href="{% url 'servicecatalog:allServices' %}">here</a> to continue shopping
+            </p>
+        </div>
+    </div>
+    {% else %}
+    <div>
+        <div class="text-center">
+            <br>
+            <h1 class="text-center my_title">
+                Your Shopping Cart
+            </h1>
+            <br>
+        </div>
+    </div>
+    <div class="row mx-auto">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+            <table class="table my_custom_table">
+                <thead class="my_custom_thead">
+                    <tr>
+                        <th colspan="5">
+                            Your Items
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for quote_item in quote_items %}
+                        <tr>
+                            <td>
+                                <a href="{{quote_item.service.get_url}}">
+                                    <img src="{{quote_item.service.image.url}}" alt="" class="float-left rounded custom_image">
+                                </a>
+                            </td>
+                            <td class="text-left">
+                                {{quote_item.service.product_name}}
+                                <br>
+                                SKU: {{quote_item.service.id}}
+                                <br>
+                                Unit Price: {{quote_item.service.service_cost}}
+                                <br>
+                                Qty: {{quote_item.quantity}} x ${{quote_item.service.service_cost}}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+            <table class="table my_custom_table">
+                <thead class="my_custom_thead">
+                    <tr>
+                        <th>
+                            Checkout
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Review your shopping cart and proceed to checkout
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Your total is: {{total}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="mx-auto">
+                <form action="" method="POST">
+                    <script
+                        src = "https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key = {{data_key}}
+                        data-amount = {{stripe_total}}
+                        data-name = "Perfect Cushion Shop"
+                        data-description = {{description}}
+                        data-image = "{% static 'img/logo.png' %}"
+                        data-locale = "auto"
+                        data-currency = "gbp"
+                        data-shipping-address = "true"
+                        data-billing-address = "true"
+                        data-zip-code = "true">
+                    </script>
+                </form>
+                <a href="{% url 'servicecatalog:allServices' %}" class="btn btn-secondary btn-block my_custom_button">
+                    Continue Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
