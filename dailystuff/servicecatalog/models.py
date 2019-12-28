@@ -39,3 +39,7 @@ class ServiceProduct(models.Model):
     def __str__(self):
         return '{}'.format(self.product_name)
 
+    def get_url(self):
+        return reverse('servicecatalog:serviceDetail',
+                       args=[self.servicecategory.url_key, self.url_key])
+
