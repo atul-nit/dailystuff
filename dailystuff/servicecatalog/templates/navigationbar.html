@@ -19,8 +19,8 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="">
-                    <i class="fas fa-shopping-cart"></i>()
+                <a class="nav-link" href="{% url 'cart:cart_detail' %}">
+                    <i class="fas fa-shopping-cart"></i>({% if item_count > 0 %}{{item_count}}{% endif %})
                 </a>
             </li>
         </ul>
