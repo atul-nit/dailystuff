@@ -43,6 +43,15 @@ def serviceByCategory(request, s_url_key):
         services = paginator.page(paginator.num_pages)
     return render(request, 'servicecatalog/services.html', {'category': s_page, 'services': services})
 
+def serviceDetail(request, service_cat_url_key, service_prod_url_key):
+    try:
+        service = ServiceProduct.objects.get(servicecategory__url_key=service_cat_url_key,
+                                             url_key=service_prod_url_key)
+        popular = ServiceProduct.objects.all().order_by('popularity')[:5]
+    except Exception as e:
+        raise e
+    return render(request, 'servicecatalog/serviceproduct.html', {'service': service, 'popular': popular})
+
 def registerView(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'servicecatalog',
     'search_service',
+    'cart',
     'crispy_forms',
 ]
 
@@ -66,6 +67,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'servicecatalog.context_processors.servicecategory_links',
+                'cart.context_processors.counter',
             ],
         },
     },
@@ -129,3 +131,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static', 'media')
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_FyGlFOirwGbnV5j0W6ZLvAU200O6ijBrxg'
+STRIPE_SECRET_KEY = 'sk_test_6cw10V0OckU6cnQ2MeHHWmPh00t5MwkOBH'

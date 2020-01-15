@@ -1,0 +1,42 @@
+{% extends 'servicecatalog/commonbase.html' %}
+{% load staticfiles %}
+{% block metadescription %}
+    {{ service.description|truncatewords:155 }}
+{% endblock %}
+{% block pagetitle %}
+    {{ service.product_name }} - Daily Stuff
+{% endblock %}
+{% block maincontent %}
+    <div class="row my_prod_row_class">
+        <div class="mx-auto">
+            <p><a href="{% url 'servicecatalog:allServices' %}">Home</a> |
+                <a href="{{ service.servicecategory.get_url }}">{{ service.servicecategory.category_name}}</a>
+                | {{ service.product_name }}</p>
+        </div>
+        <div class="container">
+            <br>
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+                    <div style="min-width: 18rem;">
+                        <img style="width: 100%;" src="{{ service.image.url }}" alt="{{ service.product_name }}">
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                    <div>
+                        <h1 class="my_prod_title">{{ service.product_name }}</h1>
+                        <p>${{ service.service_cost }}</p>
+                        <p class="text-justify my_prod_text">Product Description</p>
+                        <p>{{ service.description }}</p>
+                        {% if service.stock <= 0 %}
+                            <p class="text-justify my_prod_text"><b>Out of Stock</b></p>
+                        {% else %}
+                            <a class="btn btn-secondary" href="{% url 'cart:add_to_cart' service.id %}">
+                                Add to Cart
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
