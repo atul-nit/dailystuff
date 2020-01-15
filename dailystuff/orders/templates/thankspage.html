@@ -1,0 +1,25 @@
+{% extends 'servicecatalog/commonbase.html' %}
+{% block pagetitle %}
+    Thanks Page - Daily Stuff
+{% endblock %}
+{% block maincontent %}
+    <div>
+        <div class="text-center">
+            <br>
+            <br>
+            <h1 class="text-center my_title">
+                Thanks for placing your order
+            </h1>
+            <br>
+            <br>
+            <p>Your order number is: <b>{{ customer_order.id }}</b></p>
+            <br>
+            <p>
+                We have recieved your order. For your records, an email confirmation has been
+                sent to you. It contains details of the items you purchased.
+            </p>
+        </div>
+    </div>
+    <br>
+    <br>
+{% endblock %}
