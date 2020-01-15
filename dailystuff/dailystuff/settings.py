@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'servicecatalog',
     'search_service',
     'cart',
+    'orders',
     'crispy_forms',
 ]
 

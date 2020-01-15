@@ -4,6 +4,7 @@ from servicecatalog.models import ServiceProduct
 from .models import Quote, QuoteItem
 import stripe
 from django.conf import settings
+from orders.models import Order, OrderItem
 
 
 def _quote_id(request):
@@ -73,6 +74,45 @@ def cart_detail(request, order_total=0, counter=0, quote_items=0):
                 customer = customer.id
             )
             # TODO: saving order in admin code here
+            try:
+                LoggedInCustomer = None
+                if request.user.is_authenticated:
+                    LoggedInCustomer = request.user.id
+                orderDetails = Order.objects.create(
+                    token=stripeToken,
+                    total=stripe_total,
+                    email_id=stripeEmail,
+                    billingName=stripeBillingName,
+                    billingAddress1=stripeBillingAddressLine1,
+                    billingCity=stripeBillingAddressCity,
+                    billingPostcode=stripeBillingAddressZip,
+                    billingCountry=stripeBillingAddressCountryCode,
+                    shippingName=stripeShippingName,
+                    shippingAddress1=stripeShippingAddressLine1,
+                    shippingCity=stripeShippingAddressCity,
+                    shippingPostcode=stripeShippingAddressZip,
+                    shippingCountry=stripeShippingAddressCountryCode,
+                    customerId=LoggedInCustomer
+                )
+                orderDetails.save()
+                for quote_item in quote_items:
+                    order_item = OrderItem.objects.create(
+                        product=quote_item.service.product_name,
+                        quantity=quote_item.quantity,
+                        price=quote_item.service.service_cost,
+                        order=orderDetails
+                    )
+                    order_item.save()
+                    '''Reduce the stock when the order is placed or saved'''
+                    serviceProduct = ServiceProduct.objects.get(id=quote_item.service.id)
+                    serviceProduct.stock = int(quote_item.service.stock - quote_item.quantity)
+                    serviceProduct.popularity += 1
+                    serviceProduct.save()
+                    '''Remove the item from the shopping cart'''
+                    quote_item.delete()
+                return redirect('orders:thankspage', orderDetails.id)
+            except ObjectDoesNotExist:
+                pass
         except stripe.error.CardError as e:
             return False, e
     return render(request, 'cart_detail.html', dict(
