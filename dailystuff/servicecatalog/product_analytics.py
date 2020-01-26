@@ -3,6 +3,7 @@ from django.db import connection
 actions_for_list = ['data_from_table', 'prepare_result', 'send_response']
 
 class ActionCheckList:
+    "An Example of Stack"
     def __init__(self):
         self.check_list = []
 
@@ -62,13 +63,13 @@ def get_all_ids():
             all_ids.append(row[0])
     return all_ids
 
-
 def get_all_products():
     result = []
     product_ids = get_all_ids()
     id_str = ', '.join(str(id) for id in product_ids)
     print(id_str)
     with connection.cursor() as cursor:
+        # Example of parametrised query using string formatting placeholders
         cursor.execute("SELECT id, product_name FROM servicecatalog_serviceproduct where id in (%s)", [id_str])
         for product in cursor:
             result.append(product)

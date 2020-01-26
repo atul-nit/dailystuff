@@ -73,7 +73,7 @@ def cart_detail(request, order_total=0, counter=0, quote_items=0):
                 description = description,
                 customer = customer.id
             )
-            # TODO: saving order in admin code here
+            # saving order in admin code here
             try:
                 LoggedInCustomer = None
                 if request.user.is_authenticated:
