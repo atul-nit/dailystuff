@@ -1,0 +1,79 @@
+{% extends 'servicecatalog/commonbase.html' %}
+{% load staticfiles %}
+{% block metadescription %}
+    This is Service Review Page
+{% endblock %}
+{% block pagetitle %}
+    Service Reviews - Daily Stuff
+{% endblock %}
+{% block maincontent %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+                <div style="min-width: 18rem;">
+                    <img style="width: 100px;height: 100px;" src="{{ service.image.url }}" alt="{{ service.product_name }}">
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+                <div class="rating-block">
+                    <h2 class="my_prod_title">{{ service.product_name }}</h2>
+                    <h4>Average user rating</h4>
+                    <h2 class="bold padding-bottom-7">4.3 <small>/ 5</small></h2>
+                </div>
+                <div>
+                    {% if request.user.is_authenticated %}
+                        {% if can_add_review %}
+                        <button class="open-button" onclick="openForm()">Write a review</button>
+                        <div class="form-popup" id="myForm">
+                            <form action="{% url 'reviews:addReviewRating' service.id %}" class="form-container" id="reviewform" method="post">
+                                {% csrf_token %}
+                                <fieldset class="rating">
+                                    <legend>Please rate:</legend>
+                                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Rocks!">5 stars</label>
+                                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Pretty good">4 stars</label>
+                                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Meh">3 stars</label>
+                                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Kinda bad">2 stars</label>
+                                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Sucks big time">1 star</label>
+                                </fieldset>
+                                <label for="comment"><b>Review Comment</b></label>
+                                <textarea name="comment" form="reviewform" placeholder="Your Comment here" required></textarea>
+                                <input type="hidden" value="{{request.user.id}}" name="user_id">
+                                <button type="submit" class="btn">Submit</button>
+                                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                            </form>
+                        </div>
+                        {% else %}
+                        <p>You have already added a review</p>
+                        {% endif %}
+                    {% else %}
+                        <p>Please Login to write a review</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+            {% if service_reviews %}
+                {% for review in service_reviews %}
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+                            <h2>Added by customer {{review.customer_id}}</h2>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+                            <p>{{ review.review_comment }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No Reviews for this product yet..</p>
+            {% endif %}
+    </div>
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+</script>
+{% endblock %}
+

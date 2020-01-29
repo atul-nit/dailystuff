@@ -27,6 +27,7 @@
                         <p>${{ service.service_cost }}</p>
                         <p class="text-justify my_prod_text">Product Description</p>
                         <p>{{ service.description }}</p>
+                        <p><a href="{% url 'reviews:serviceReviews' service.id %}">View Reviews</a></p>
                         {% if service.stock <= 0 %}
                             <p class="text-justify my_prod_text"><b>Out of Stock</b></p>
                         {% else %}
