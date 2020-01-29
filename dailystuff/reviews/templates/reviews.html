@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     {% if request.user.is_authenticated %}
-                        {% if can_add_comment %}
+                        {% if can_add_review %}
                         <button class="open-button" onclick="openForm()">Write a review</button>
                         <div class="form-popup" id="myForm">
                             <form action="{% url 'reviews:addReviewRating' service.id %}" class="form-container" id="reviewform" method="post">

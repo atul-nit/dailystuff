@@ -3,7 +3,7 @@ from servicecatalog.models import ServiceProduct
 
 
 class ServiceReviews(models.Model):
-    service_id = models.ForeignKey(ServiceProduct, on_delete=models.CASCADE)
+    service = models.ForeignKey(ServiceProduct, on_delete=models.CASCADE)
     customer_id = models.IntegerField()
     review_comment = models.TextField(max_length=500)
     rating = models.IntegerField(default=1)
