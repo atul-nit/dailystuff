@@ -4,6 +4,7 @@ import csv
 from .models import OrderItem, Order
 from .order_analytics import get_orders_product_details
 from .order_analytics import get_orders_product_customer_details
+from .order_analytics import order_product_summary
 
 
 class OrderItemAdmin(admin.TabularInline):
@@ -21,8 +22,8 @@ class OrderItemAdmin(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    actions = ['get_orders_detail', 'get_orders_customer_detail']
-    list_display = ['id', 'billingName', 'email_id', 'created_at','customerId']
+    actions = ['get_orders_detail', 'get_orders_customer_detail', 'get_orders_product_analysis']
+    list_display = ['id', 'billingName', 'email_id', 'created_at','customerId', 'total']
     list_display_links = ('id', 'billingName')
     search_fields = ['id', 'billingName', 'email_id']
     readonly_fields = ['id', 'token', 'total', 'email_id', 'created_at', 'billingName', 'billingAddress1',
@@ -67,4 +68,14 @@ class OrderAdmin(admin.ModelAdmin):
         result = get_orders_product_customer_details()
         for order_item in result:
             writer.writerow(order_item)
+        return response
+
+    def get_orders_product_analysis(self, request, queryset):
+        column_names = ['Minimun Order', 'Maximum Order', 'Total OrderValue', 'Total Service Value']
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename={}.csv'.format("orders_product_summary")
+        writer = csv.writer(response)
+        writer.writerow(column_names)
+        result = order_product_summary()
+        writer.writerow(result)
         return response
