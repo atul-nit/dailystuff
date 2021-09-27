@@ -25,6 +25,7 @@ def allServiceProducts(request):
         services = paginator.page(paginator.num_pages)
     return render(request, 'servicecatalog/services.html', {'category': None, 'services': services})
 
+
 def serviceByCategory(request, s_url_key):
     " Get Service Products by Service Category"
     s_page = get_object_or_404(ServiceCategory, url_key=s_url_key)
@@ -43,6 +44,7 @@ def serviceByCategory(request, s_url_key):
         services = paginator.page(paginator.num_pages)
     return render(request, 'servicecatalog/services.html', {'category': s_page, 'services': services})
 
+
 def serviceDetail(request, service_cat_url_key, service_prod_url_key):
     try:
         service = ServiceProduct.objects.get(servicecategory__url_key=service_cat_url_key,
@@ -51,6 +53,7 @@ def serviceDetail(request, service_cat_url_key, service_prod_url_key):
     except Exception as e:
         raise e
     return render(request, 'servicecatalog/serviceproduct.html', {'service': service, 'popular': popular})
+
 
 def registerView(request):
     if request.method == 'POST':
@@ -64,6 +67,7 @@ def registerView(request):
     else:
         form = RegisterForm()
     return render(request, 'accounts/register.html', {'form': form})
+
 
 def loginView(request):
     if request.method == 'POST':
@@ -81,6 +85,7 @@ def loginView(request):
     else:
         form = AuthenticationForm()
     return render(request, 'accounts/login.html', {'form': form})
+
 
 def logoutView(request):
     logout(request)

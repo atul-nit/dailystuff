@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
+
 class ServiceCategory(models.Model):
     category_name = models.CharField(max_length=250, unique=True)
     url_key = models.SlugField(max_length=250, unique=True)
@@ -17,6 +18,7 @@ class ServiceCategory(models.Model):
 
     def get_url(self):
         return reverse('servicecatalog:serviceByCategory', args=[self.url_key])
+
 
 class ServiceProduct(models.Model):
     product_name = models.CharField(max_length=250, unique=True)
