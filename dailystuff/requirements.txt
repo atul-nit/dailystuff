@@ -1,7 +1,7 @@
 asgiref==3.4.1
 certifi==2019.6.16
 chardet==3.0.4
-Django==3.2.7
+Django==3.2.12
 django-crispy-forms==1.13.0
 docutils==0.15
 idna==2.8
